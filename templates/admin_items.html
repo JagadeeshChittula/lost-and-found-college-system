@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="admin">
+  <div class="admin-hero">
+    <div>
+      <p class="eyebrow">Moderation Center</p>
+      <h2>Items</h2>
+      <p class="muted">Review and remove inappropriate listings.</p>
+    </div>
+  </div>
+
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin') }}">Dashboard</a>
+    <a href="{{ url_for('admin_users') }}">Users</a>
+    <a class="active" href="{{ url_for('admin_items') }}">Items</a>
+    <a href="{{ url_for('admin_claims') }}">Claims</a>
+    <a href="{{ url_for('admin_reports') }}">Reports</a>
+  </nav>
+
+  <form class="admin-filter" method="get" action="{{ url_for('admin_items') }}">
+    <label>Start Date
+      <input type="date" name="start_date" value="{{ start_date }}" />
+    </label>
+    <label>End Date
+      <input type="date" name="end_date" value="{{ end_date }}" />
+    </label>
+    <button class="btn ghost" type="submit">Filter</button>
+  </form>
+
+  <div class="admin-section">
+    <div class="admin-grid">
+      {% for i in items %}
+      <div class="admin-card">
+        <div><strong>{{ i['name'] }}</strong> ({{ i['type'] }})</div>
+        <div class="muted">Contact: {{ i['contact'] }} | Email: {{ i['email'] }}</div>
+        <div class="muted">Date: {{ i['item_date'] if i['item_date'] else 'N/A' }}</div>
+        <form method="post" action="{{ url_for('admin_delete_item') }}">
+          <input type="hidden" name="item_id" value="{{ i['id'] }}" />
+          <button class="btn danger" type="submit">Delete Item</button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

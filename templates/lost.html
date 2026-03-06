@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="form-card">
+  <h2>Report a Lost Item</h2>
+  <p>Fill in the details below. The admin can help moderate spam and guide recoveries.</p>
+  <form id="lostForm" class="form" enctype="multipart/form-data">
+    <div class="grid">
+      <label>Item Name
+        <input type="text" name="name" required />
+      </label>
+      <label>Contact Person
+        <input type="text" name="contact" required />
+      </label>
+      <label>Email
+        <input type="email" name="email" />
+      </label>
+      <label>Date Lost
+        <input type="date" name="item_date" required />
+      </label>
+      <label>Description
+        <input type="text" name="description" placeholder="Color, location, time" />
+      </label>
+      <label>Upload Photo</label>
+      <div class="file-field">
+        <input id="lostPhoto" class="file-input" type="file" name="photo" accept="image/*" />
+        <label class="file-button" for="lostPhoto">Choose File</label>
+        <span class="file-name" data-empty="No file chosen">No file chosen</span>
+      </div>
+    </div>
+    <button class="btn" type="submit">Submit Lost Item</button>
+    <div class="form-status" id="lostStatus"></div>
+  </form>
+</section>
+{% endblock %}

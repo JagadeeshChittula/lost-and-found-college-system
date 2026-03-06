@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="admin">
+  <div class="admin-hero">
+    <div>
+      <p class="eyebrow">Moderation Center</p>
+      <h2>Claims</h2>
+      <p class="muted">Track claim activity across items.</p>
+    </div>
+  </div>
+
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin') }}">Dashboard</a>
+    <a href="{{ url_for('admin_users') }}">Users</a>
+    <a href="{{ url_for('admin_items') }}">Items</a>
+    <a class="active" href="{{ url_for('admin_claims') }}">Claims</a>
+    <a href="{{ url_for('admin_reports') }}">Reports</a>
+  </nav>
+
+  <div class="admin-section">
+    <div class="admin-grid">
+      {% for c in claims %}
+      <div class="admin-card">
+        <div><strong>{{ c['item_name'] }}</strong> claimed by {{ c['claimer_name'] }}</div>
+        <div class="muted">Status: {{ c['status'] }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

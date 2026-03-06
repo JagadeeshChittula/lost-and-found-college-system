@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="home-hero">
+  <div class="hero-content">
+    <span class="eyebrow">Campus Lost & Found</span>
+    <h1>Find what matters in minutes.</h1>
+    <p>
+      Report lost items, announce found items, and connect safely using verified chat.
+      A clear path from report to reunion.
+    </p>
+    <div class="cta-row">
+      <a class="btn" href="{{ url_for('lost') }}">Report Lost</a>
+      <a class="btn ghost" href="{{ url_for('found') }}">Report Found</a>
+    </div>
+    <div class="hero-metrics">
+      <div class="metric-card">
+        <div class="stat">1,240+</div>
+        <div class="label">Items Reunited</div>
+      </div>
+      <div class="metric-card">
+        <div class="stat">24/7</div>
+        <div class="label">Secure Chat</div>
+      </div>
+      <div class="metric-card">
+        <div class="stat">2 mins</div>
+        <div class="label">Avg. Claim Time</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hero-mini-card">
+        <div class="mini-title">Lost</div>
+        <div class="mini-desc">Blue AirPods near library</div>
+        <div class="mini-tag">Verified</div>
+      </div>
+      <div class="hero-mini-card">
+        <div class="mini-title">Found</div>
+        <div class="mini-desc">Graphing calculator - Room 204</div>
+        <div class="mini-tag">Matched</div>
+      </div>
+      <div class="hero-mini-card">
+        <div class="mini-title">Chat</div>
+        <div class="mini-desc">Private message opened</div>
+        <div class="mini-tag">Safe</div>
+      </div>
+    </div>
+    <div class="hero-orbit"></div>
+  </div>
+</section>
+
+<section class="home-grid">
+  <div class="info-card">
+    <h2>How it works</h2>
+    <p>Post a report in seconds. Search by category, location, and time.</p>
+    <div class="info-actions">
+      <a class="btn ghost" href="{{ url_for('items') }}">Browse Items</a>
+    </div>
+  </div>
+  <div class="info-card">
+    <h2>Fast, verified claims</h2>
+    <p>Claim ownership with one click and open a secure chat once verified.</p>
+    <div class="info-actions">
+      <a class="btn ghost" href="{{ url_for('login') }}">Login to Claim</a>
+    </div>
+  </div>
+  <div class="info-card">
+    <h2>Built for students</h2>
+    <p>Clean, focused interface designed to reduce confusion and speed up returns.</p>
+    <div class="info-actions">
+      <a class="btn ghost" href="{{ url_for('register') }}">Create Account</a>
+    </div>
+  </div>
+</section>
+
+<section class="feature-strip">
+  <div class="feature-card">
+    <h3>Search & Filter</h3>
+    <p>Zero clutter. Find the right item fast.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Claim Ownership</h3>
+    <p>Verified flow keeps everyone safe.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Admin Moderation</h3>
+    <p>Reports are reviewed for trust.</p>
+  </div>
+  <div class="feature-card">
+    <h3>Realtime Chat</h3>
+    <p>Private messages, simple handoff.</p>
+  </div>
+</section>
+{% endblock %}

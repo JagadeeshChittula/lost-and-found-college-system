@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="items">
+  <div class="items-header">
+    <h2>All Lost & Found Items</h2>
+    <div class="items-controls">
+      <input id="searchInput" type="text" placeholder="Search items..." />
+      <select id="typeFilter">
+        <option value="all">All</option>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+      <button class="btn ghost" id="searchBtn">Search</button>
+    </div>
+  </div>
+
+  <div class="items-layout">
+    <div class="items-left">
+      <div id="itemsList" class="items-grid"></div>
+    </div>
+    <div class="items-right">
+      <div class="helper-card" id="chatHelper">
+        <div class="helper-title">How to claim safely</div>
+        <ul class="helper-list">
+          <li>Open an item and click “Belongs to me”.</li>
+          <li>Wait for approval, then use chat to verify.</li>
+          <li>Share identifiers (serials, photos) instead of personal info.</li>
+          <li>Meet in public campus areas only.</li>
+        </ul>
+      </div>
+      <div class="chat-panel is-hidden" id="chatPanel">
+        <div class="chat-header">
+          <div>Chat</div>
+          <div id="chatItemName" class="muted">Select an item to chat</div>
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-input">
+          <input id="chatInput" type="text" placeholder="Type a message..." />
+          <button class="btn" id="chatSend">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/socket.io/socket.io.js"></script>
+{% endblock %}
