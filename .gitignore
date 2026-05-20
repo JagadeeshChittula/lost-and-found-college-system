@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+*.log
+npm-debug.log*
+app.db
+__pycache__/
+.pytest_cache/
+backend/uploads/*
+!backend/uploads/.gitkeep
