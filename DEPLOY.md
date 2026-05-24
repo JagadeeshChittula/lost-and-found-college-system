@@ -93,7 +93,18 @@ Open `http://localhost:5000` (not 5173).
 ## Free tier notes
 
 - Render free services **sleep** after ~15 minutes of no traffic; the first visit may take 30–60 seconds to wake up.
-- For a hackathon demo, wake the app once before presenting.
+- Login or sign-up right after waking can fail once — wait for the home page to load, then try again.
+- For a hackathon demo, open the site once before presenting so the server is awake.
+
+## Local development
+
+Always start **both** frontend and backend:
+
+```bash
+npm run dev
+```
+
+If you only run the frontend (`npm run dev --prefix frontend`), login will show "Backend not reachable."
 
 ---
 

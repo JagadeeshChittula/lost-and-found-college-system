@@ -5,17 +5,24 @@ import { api } from "../api/client.js";
 export default function AuthForm({ mode, setUser }) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const isLogin = mode === "login";
 
   async function submit(event) {
     event.preventDefault();
-    const data = Object.fromEntries(new FormData(event.currentTarget).entries());
-    const res = await api.post(isLogin ? "/api/login" : "/api/register", data);
-    if (res.ok) {
-      if (isLogin) setUser(res.user);
-      navigate(isLogin ? "/" : "/login");
-    } else {
-      setError(res.message || res.error || "Something went wrong.");
+    setError("");
+    setLoading(true);
+    try {
+      const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+      const res = await api.post(isLogin ? "/api/login" : "/api/register", data);
+      if (res.ok) {
+        if (isLogin) setUser(res.user);
+        navigate(isLogin ? "/" : "/login");
+      } else {
+        setError(res.message || res.error || "Something went wrong.");
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -38,8 +45,8 @@ export default function AuthForm({ mode, setUser }) {
             Password
             <input type="password" name="password" required />
           </label>
-          <button className="btn" type="submit">
-            {isLogin ? "Login" : "Sign Up"}
+          <button className="btn" type="submit" disabled={loading}>
+            {loading ? "Please wait…" : isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
         {error ? <div className="form-status error">{error}</div> : null}
