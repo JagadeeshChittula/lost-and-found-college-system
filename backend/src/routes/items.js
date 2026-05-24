@@ -7,6 +7,7 @@ const { requireCloudinaryConfig, upload } = require("../middleware/upload");
 const { containsProfanity } = require("../utils/moderation");
 const { serializeItem } = require("../utils/serializers");
 const { sendEmail } = require("../utils/mail");
+const { getUploadedImageUrl } = require("../utils/cloudinaryImage");
 
 function asyncHandler(handler) {
   return (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
@@ -49,7 +50,18 @@ function createItemsRouter() {
         return res.status(400).json({ error: "profanity_detected" });
       }
 
-      await Item.create({
+      let imageUrl = "";
+      if (req.file) {
+        imageUrl = getUploadedImageUrl(req.file);
+        if (!imageUrl) {
+          return res.status(500).json({
+            error: "cloudinary_upload_failed",
+            message: "Image was uploaded but no Cloudinary link was returned. Check your Cloudinary credentials."
+          });
+        }
+      }
+
+      const item = await Item.create({
         type: itemType,
         name,
         contact,
@@ -57,9 +69,9 @@ function createItemsRouter() {
         description,
         itemDate,
         owner: req.user._id,
-        imageUrl: req.file?.path || ""
+        imageUrl
       });
-      res.json({ ok: true });
+      res.json({ ok: true, imageUrl: item.imageUrl || "" });
     }));
 
   router.post("/claim", requireLogin, asyncHandler(async (req, res) => {

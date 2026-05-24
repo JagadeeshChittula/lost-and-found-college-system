@@ -6,7 +6,6 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "campus-lost-found",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
     resource_type: "image"
   }
 });

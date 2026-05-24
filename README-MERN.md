@@ -11,19 +11,36 @@ This repo now contains the cleaned MERN version of Campus Lost & Found:
 AI2/
   backend/
     src/
+      app.js              # Express app, middleware, routes, Socket.IO
+      server.js           # MongoDB connect, seed admin, start server
       config/
       middleware/
       models/
       routes/
       sockets/
       utils/
-      server.js
     package.json
   frontend/
     src/
+      api/
+        client.js         # fetch wrapper for REST API
+      components/
+        common/           # InfoCard, Feature, Summary
+        layout/           # Layout (header, nav, footer)
+      hooks/
+        useTheme.js
+      pages/
+        admin/Admin.jsx
+        AuthForm.jsx
+        Home.jsx
+        ItemForm.jsx
+        ItemsPage.jsx
+      routes/
+        AppRoutes.jsx
+      styles/
+        styles.css
       App.jsx
       main.jsx
-      styles.css
     index.html
     vite.config.js
   package.json
@@ -45,7 +62,7 @@ CLOUD_API_KEY=your_cloudinary_api_key
 CLOUD_API_SECRET=your_cloudinary_api_secret
 ```
 
-Uploaded item images are stored in the Cloudinary folder `campus-lost-found`. MongoDB stores only the resulting `imageUrl`.
+Uploaded item images are sent to Cloudinary (folder `campus-lost-found`). MongoDB stores only the HTTPS link in `imageUrl` (for example `https://res.cloudinary.com/...`). Local `backend/uploads/` is not used by the MERN API.
 
 4. Install dependencies:
 
