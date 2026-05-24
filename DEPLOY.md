@@ -23,7 +23,7 @@ In Atlas → **Network Access** → **Add IP Address** → **Allow Access from A
 
 | Variable | Example / notes |
 |----------|-----------------|
-| `CLIENT_URL` | `https://campus-lost-found-xxxx.onrender.com` (use your real Render URL **after** first deploy, then update and redeploy) |
+| `CLIENT_URL` | `https://campus-lost-found-xxxx.onrender.com` (optional if `RENDER_EXTERNAL_URL` is set automatically by Render; still recommended to set explicitly) |
 | `MONGO_URI` | Your Atlas connection string |
 | `CLOUD_NAME` | Cloudinary cloud name |
 | `CLOUD_API_KEY` | Cloudinary API key |
