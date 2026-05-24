@@ -1,3 +1,4 @@
+const fs = require("fs");
 const http = require("http");
 const path = require("path");
 const express = require("express");
@@ -59,6 +60,16 @@ app.use(sessionMiddleware);
 
 io.engine.use(sessionMiddleware);
 
+app.get("/api/health", (_req, res) => {
+  const distPath = path.join(process.cwd(), "frontend/dist");
+  const indexFile = path.join(distPath, "index.html");
+  res.json({
+    ok: true,
+    frontendBuilt: fs.existsSync(indexFile),
+    distPath
+  });
+});
+
 app.use("/api", authRoutes);
 app.use("/api", createItemsRouter());
 app.use("/api", createChatRouter(io));
@@ -66,17 +77,39 @@ app.use("/api", adminRoutes);
 registerChatSocket(io);
 
 if (isProduction) {
-  const distPath = path.join(__dirname, "../../frontend/dist");
+  const distPath = path.join(process.cwd(), "frontend/dist");
+  const indexFile = path.join(distPath, "index.html");
+
+  if (!fs.existsSync(indexFile)) {
+    console.error(`Production frontend missing at ${indexFile}. Run: npm run build`);
+  } else {
+    console.log(`Serving frontend from ${distPath}`);
+  }
+
   app.use(express.static(distPath));
-  app.get("*", (req, res, next) => {
-    if (req.path.startsWith("/api")) {
+  app.use((req, res, next) => {
+    if (req.method !== "GET" || req.path.startsWith("/api")) {
       next();
       return;
     }
-    res.sendFile(path.join(distPath, "index.html"), (err) => {
-      if (err) next(err);
+    if (!fs.existsSync(indexFile)) {
+      res.status(503).send("Frontend build not found. Redeploy with npm run build.");
+      return;
+    }
+    res.sendFile(indexFile, (err) => {
+      if (err) {
+        console.error("SPA fallback error:", err);
+        res.status(500).send("Unable to load app.");
+      }
     });
   });
 }
+
+app.use((err, _req, res, _next) => {
+  console.error("Unhandled error:", err);
+  if (!res.headersSent) {
+    res.status(500).json({ error: "server_error", message: "Internal server error." });
+  }
+});
 
 module.exports = { app, server };
