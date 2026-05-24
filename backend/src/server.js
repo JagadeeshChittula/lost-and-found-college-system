@@ -27,7 +27,8 @@ mongoose
   .then(async () => {
     await ensureAdmin();
     server.listen(PORT, () => {
-      console.log(`MERN backend running on http://localhost:${PORT}`);
+      const mode = process.env.NODE_ENV || "development";
+      console.log(`Server listening on port ${PORT} (${mode})`);
     });
   })
   .catch((err) => {

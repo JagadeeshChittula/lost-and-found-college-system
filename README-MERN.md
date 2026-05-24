@@ -46,6 +46,10 @@ AI2/
   package.json
 ```
 
+## Deploy
+
+See **[DEPLOY.md](./DEPLOY.md)** for deploying to Render (free tier, single URL for frontend + API + chat).
+
 ## Run Locally
 
 1. Start MongoDB locally.

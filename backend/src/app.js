@@ -1,4 +1,5 @@
 const http = require("http");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
@@ -13,6 +14,7 @@ const createItemsRouter = require("./routes/items");
 const { getMissingCloudinaryEnvVars } = require("./config/cloudinary");
 const { registerChatSocket } = require("./sockets/chatSocket");
 
+const isProduction = process.env.NODE_ENV === "production";
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const MONGO_URI = process.env.MONGO_URI;
 const SESSION_SECRET = process.env.SESSION_SECRET || "change-this-secret";
@@ -26,6 +28,10 @@ if (missingCloudinaryEnvVars.length) {
 
 const app = express();
 const server = http.createServer(app);
+
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
 
 const io = new Server(server, {
   cors: {
@@ -41,6 +47,7 @@ const sessionMiddleware = session({
   store: MongoStore.create({ mongoUrl: MONGO_URI }),
   cookie: {
     sameSite: "lax",
+    secure: isProduction,
     httpOnly: true
   }
 });
@@ -57,5 +64,19 @@ app.use("/api", createItemsRouter());
 app.use("/api", createChatRouter(io));
 app.use("/api", adminRoutes);
 registerChatSocket(io);
+
+if (isProduction) {
+  const distPath = path.join(__dirname, "../../frontend/dist");
+  app.use(express.static(distPath));
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api")) {
+      next();
+      return;
+    }
+    res.sendFile(path.join(distPath, "index.html"), (err) => {
+      if (err) next(err);
+    });
+  });
+}
 
 module.exports = { app, server };
